@@ -53,7 +53,7 @@ npm test      # node test.js: 7 casos da regra de substituição (BOM, idempotê
 
 ## Arquivos
 
-- `index.html`, `styles.css`, `app.js` — a página
+- `index.html`, `styles.css`, `app.js` — a página (`styles.css` é o mesmo do site `aliquota-sn`, com um bloco de componentes próprios no fim)
 - `adn.js` — a regra de substituição (sem DOM, testável)
 - `server.js`, `iniciar.bat` — servidor estático local de 40 linhas, sem dependências
 - `vendor/libarchive.js` + `worker-bundle.js` + `libarchive.wasm` — leitura de zip/rar/7z (Apache-2.0)

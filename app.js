@@ -44,6 +44,7 @@ function limpar() {
   resultados = [];
   desenharFila();
   $('resultado').hidden = true;
+  $('estadoVazio').hidden = false;
   $('aviso').textContent = '';
   $('aviso').className = 'aviso';
   $('btnProcessar').disabled = true;
@@ -126,7 +127,9 @@ function mostrarResultado(ignorados) {
     corpo.appendChild(tr);
   }
 
-  $('resultado').hidden = resultados.length === 0;
+  const temResultado = resultados.length > 0;
+  $('resultado').hidden = !temResultado;
+  $('estadoVazio').hidden = temResultado;
   $('btnProcessar').disabled = entradas.size === 0;
   $('btnBaixar').disabled = !resultados.some((r) => r.bytes);
 
@@ -184,11 +187,11 @@ $('btnLimpar').onclick = limpar;
 const drop = $('drop');
 drop.ondragover = (e) => {
   e.preventDefault();
-  drop.classList.add('arrastando');
+  drop.classList.add('is-drag');
 };
-drop.ondragleave = () => drop.classList.remove('arrastando');
+drop.ondragleave = () => drop.classList.remove('is-drag');
 drop.ondrop = (e) => {
   e.preventDefault();
-  drop.classList.remove('arrastando');
+  drop.classList.remove('is-drag');
   adicionar(e.dataTransfer.files);
 };

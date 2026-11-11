@@ -1,119 +1,165 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Alterar Situação ADN dos XMLs de NFS-e em Lote</title>
-<meta name="description" content="Troca a tag SituacaoAdn de Em Processamento para Processado com Sucesso nos XMLs de NFS-e. Aceita pasta, vários XMLs, .zip e .rar, mantendo backup dos originais. Roda no navegador, sem enviar arquivo para servidor.">
-<meta name="theme-color" content="#0b1220">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230b1220'/><text x='50' y='66' font-size='40' text-anchor='middle' fill='%2322e584'>ADN</text></svg>">
-<link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Situação ADN — alterar os XMLs de NFS-e em lote</title>
+  <meta name="description" content="Troca a tag SituacaoAdn de Em Processamento para Processado com Sucesso nos XMLs de NFS-e. Aceita pasta, vários XMLs, .zip e .rar, devolvendo um ZIP com os arquivos corrigidos e o backup dos originais. Processado no navegador, sem enviar arquivo para servidor.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230f2544'/><path d='M11 6h8l4 4v16H11z' fill='none' stroke='%23fff' stroke-width='2'/><path d='m14 19 3 3 5-6' fill='none' stroke='%2334d399' stroke-width='2.4' stroke-linecap='round'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<header class="topbar">
-  <div class="topbar-inner">
-    <div class="brand">
-      <span class="brand-mark" aria-hidden="true">ADN</span>
-      <span>
-        <b>Alterar Situação ADN</b>
-        <small>XML de NFS-e &middot; Em Processamento &rarr; Processado com Sucesso</small>
-      </span>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="#topo">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32"><path d="M11 5h8l5 5v17H11z"/><path d="M19 5v5h5"/><path d="m14.5 19.5 2.5 2.5 4.5-5.5"/></svg>
+        </span>
+        <span class="brand-text">Situação<strong>ADN</strong></span>
+      </a>
+      <nav class="nav" aria-label="Navegação principal">
+        <a href="#ferramenta">Ferramenta</a>
+        <a href="#metodologia">Como funciona</a>
+      </nav>
+      <span class="badge-ano">XML de NFS-e · em lote</span>
     </div>
-    <a class="btn btn-ghost btn-sm" href="#como">Como funciona</a>
-  </div>
-</header>
+  </header>
 
-<section class="hero">
-  <div class="hero-inner">
-    <span class="badge">Lote &middot; 100% no navegador</span>
-    <h1>Troque a tag SituacaoAdn dos XMLs em um clique</h1>
-    <p class="sub">
-      Sobe a pasta, os XMLs soltos ou o <strong>.zip</strong>/<strong>.rar</strong>. Cada arquivo com
-      <code>&lt;SituacaoAdn&gt;Em Processamento&lt;/SituacaoAdn&gt;</code> passa a
-      <code>&lt;SituacaoAdn&gt;Processado com Sucesso&lt;/SituacaoAdn&gt;</code>,
-      e você baixa tudo pronto em ZIP, com os originais no backup.
-    </p>
-  </div>
-</section>
-
-<main class="wrap">
-  <section class="card">
-    <h2>1. Escolha os arquivos</h2>
-    <p class="hint">Pasta, vários XMLs, .zip ou .rar. Nada é enviado para servidor &mdash; o processamento acontece no seu computador.</p>
-
-    <div class="drop" id="drop">
-      <span class="drop-icon" aria-hidden="true">&#8693;</span>
-      <strong>Arraste aqui</strong>
-      <span>pasta, XMLs, .zip ou .rar</span>
-      <div class="row">
-        <button class="btn btn-primary" id="btnPasta" type="button">Escolher pasta</button>
-        <button class="btn btn-outline" id="btnArquivos" type="button">Escolher XMLs</button>
-        <button class="btn btn-outline" id="btnPacote" type="button">Escolher .zip / .rar</button>
+  <main id="topo">
+    <section class="hero">
+      <div class="wrap hero-inner">
+        <p class="eyebrow">NFS-e · tag SituacaoAdn · processamento no navegador</p>
+        <h1>Troque <span>“Em Processamento”</span> por “Processado com Sucesso” nos XMLs</h1>
+        <p class="hero-sub">Suba a <strong>pasta</strong>, os XMLs soltos ou o <strong>.zip</strong>/<strong>.rar</strong>. Todo arquivo com a tag <strong>Em Processamento</strong> é corrigido e volta em um ZIP com as pastas originais e o <strong>backup</strong> de cada arquivo alterado. Sem instalar nada, sem enviar o XML para servidor.</p>
+        <div class="hero-stats">
+          <div><strong>3</strong><span>formas de entrada</span></div>
+          <div><strong>ZIP</strong><span>com backup dos originais</span></div>
+          <div><strong>100%</strong><span>processado no navegador</span></div>
+        </div>
       </div>
-    </div>
+    </section>
 
-    <input id="inPasta" type="file" webkitdirectory directory multiple hidden>
-    <input id="inArquivos" type="file" accept=".xml,text/xml,application/xml" multiple hidden>
-    <input id="inPacote" type="file" accept=".zip,.rar,.7z" multiple hidden>
+    <section class="wrap layout" id="ferramenta">
+      <div class="panel entrada">
+        <div class="dropzone" id="drop">
+          <span class="drop-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 16V4m0 0L7 9m5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
+          </span>
+          <span class="drop-title">Arraste os arquivos aqui</span>
+          <span class="drop-sub">pasta, XMLs, .zip ou .rar — o XML é lido no seu navegador</span>
+          <div class="acoes-file">
+            <button class="btn btn-soft" id="btnPasta" type="button">Escolher pasta</button>
+            <button class="btn btn-soft" id="btnArquivos" type="button">Escolher XMLs</button>
+            <button class="btn btn-soft" id="btnPacote" type="button">Escolher .zip / .rar</button>
+          </div>
+        </div>
 
-    <div class="fila" id="fila" hidden>
-      <div class="fila-topo">
-        <span id="filaResumo">0 arquivo(s)</span>
-        <button class="btn btn-link" id="btnLimpar" type="button">Limpar</button>
+        <input id="inPasta" type="file" webkitdirectory directory multiple hidden>
+        <input id="inArquivos" type="file" accept=".xml,text/xml,application/xml" multiple hidden>
+        <input id="inPacote" type="file" accept=".zip,.rar,.7z" multiple hidden>
+
+        <div class="fila" id="fila" hidden>
+          <div class="fila-topo">
+            <strong id="filaResumo">0 arquivo(s)</strong>
+            <button class="link-copy" id="btnLimpar" type="button">Limpar</button>
+          </div>
+          <ul id="filaLista"></ul>
+        </div>
+
+        <p class="nota">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg>
+          Os arquivos são lidos apenas no seu navegador. Nada é enviado nem armazenado.
+        </p>
+
+        <div class="troca">
+          <code class="antes">&lt;SituacaoAdn&gt;Em Processamento&lt;/SituacaoAdn&gt;</code>
+          <span aria-hidden="true">→</span>
+          <code class="depois">&lt;SituacaoAdn&gt;Processado com Sucesso&lt;/SituacaoAdn&gt;</code>
+        </div>
+
+        <button class="btn btn-primary" id="btnProcessar" type="button" disabled>Processar arquivos</button>
+        <p class="aviso" id="aviso" role="status" aria-live="polite"></p>
       </div>
-      <ul id="filaLista"></ul>
-    </div>
-  </section>
 
-  <section class="card">
-    <h2>2. Processar</h2>
-    <div class="troca">
-      <code class="antes">&lt;SituacaoAdn&gt;Em Processamento&lt;/SituacaoAdn&gt;</code>
-      <span aria-hidden="true">&rarr;</span>
-      <code class="depois">&lt;SituacaoAdn&gt;Processado com Sucesso&lt;/SituacaoAdn&gt;</code>
-    </div>
-    <div class="row">
-      <button class="btn btn-primary" id="btnProcessar" type="button" disabled>Processar</button>
-    </div>
-    <p class="aviso" id="aviso" role="status" aria-live="polite"></p>
-  </section>
+      <div class="panel resultado" aria-live="polite">
+        <div class="vazio" id="estadoVazio">
+          <span class="vazio-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>
+          </span>
+          <h2>Seu resultado aparece aqui</h2>
+          <p>Escolha a pasta, os XMLs ou os pacotes e clique em <strong>Processar arquivos</strong> para ver o que foi alterado e baixar o ZIP.</p>
+        </div>
 
-  <section class="card" id="resultado" hidden>
-    <h2>3. Resultado</h2>
-    <div class="stats">
-      <div class="stat"><span>Alterados</span><strong class="g" id="stAlterados">0</strong></div>
-      <div class="stat"><span>Já corretos</span><strong id="stJa">0</strong></div>
-      <div class="stat"><span>Sem a tag</span><strong id="stSem">0</strong></div>
-      <div class="stat"><span>Não alterados por erro</span><strong class="c" id="stErro">0</strong></div>
-    </div>
-    <div class="row">
-      <button class="btn btn-primary" id="btnBaixar" type="button">Baixar ZIP</button>
-      <span class="hint" id="baixarInfo"></span>
-    </div>
-    <div class="tabela-caixa">
-      <table>
-        <thead><tr><th>Arquivo</th><th>Situação</th></tr></thead>
-        <tbody id="corpoTabela"></tbody>
-      </table>
-    </div>
-  </section>
+        <div id="resultado" hidden>
+          <div class="section-mini">
+            <h3>Resultado</h3>
+            <p id="baixarInfo"></p>
+          </div>
 
-  <section class="card" id="como">
-    <h2>Como funciona</h2>
-    <ul class="lista-simples">
-      <li>Só entram arquivos <code>.xml</code>. Dentro de .zip/.rar/.7z a busca é feita em todas as subpastas.</li>
-      <li>XML já com <strong>Processado com Sucesso</strong> é ignorado, então pode rodar quantas vezes quiser.</li>
-      <li>O ZIP baixado traz os arquivos corrigidos e a pasta <code>originais/</code> com o conteúdo de antes, igual ao backup do script.</li>
-      <li>A codificação é preservada (UTF-8 com ou sem BOM). Arquivo em outra codificação fica intacto e é listado como erro.</li>
-    </ul>
-  </section>
-</main>
+          <div class="meta-grid">
+            <div class="meta"><span>Alterados</span><strong id="stAlterados">0</strong></div>
+            <div class="meta"><span>Já corretos</span><strong id="stJa">0</strong></div>
+            <div class="meta"><span>Sem a tag</span><strong id="stSem">0</strong></div>
+            <div class="meta"><span>Não alterados</span><strong id="stErro">0</strong></div>
+          </div>
 
-<footer class="rodape">
-  <div class="wrap">Mesma regra do <code>Alterar-SituacaoAdn.ps1</code>, sem instalar nada.</div>
-</footer>
+          <div class="acoes-resultado">
+            <button class="btn btn-zip" id="btnBaixar" type="button">Baixar ZIP</button>
+          </div>
 
-<script src="vendor/jszip.min.js"></script>
-<script type="module" src="app.js"></script>
+          <div class="tabela-caixa">
+            <table class="partilha resultado-tabela">
+              <thead><tr><th>Arquivo</th><th>Situação</th></tr></thead>
+              <tbody id="corpoTabela"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap metodologia" id="metodologia">
+      <div class="section-head">
+        <p class="eyebrow">Como funciona</p>
+        <h2>A mesma troca do Alterar-SituacaoAdn.ps1</h2>
+        <p>Uma única tag muda de valor; o resto do XML fica intacto. Pode rodar quantas vezes quiser — arquivo já corrigido não é tocado de novo.</p>
+      </div>
+      <div class="cards3">
+        <article class="card">
+          <span class="card-num">01</span>
+          <h3>O que muda</h3>
+          <p class="formula-inline">&lt;SituacaoAdn&gt;Em Processamento&lt;/SituacaoAdn&gt; → &lt;SituacaoAdn&gt;Processado com Sucesso&lt;/SituacaoAdn&gt;</p>
+          <p>Só essa tag é trocada. Os demais campos, valores, assinatura e a ordem das linhas do XML continuam exatamente como vieram da prefeitura.</p>
+        </article>
+        <article class="card">
+          <span class="card-num">02</span>
+          <h3>Pode repetir sem medo</h3>
+          <p>XML que já está com <strong>Processado com Sucesso</strong> é ignorado, e XML sem a tag também: nada é reescrito à toa.</p>
+          <p>Se rodar em cima de um lote já tratado, o resultado é o mesmo lote — só o relatório muda.</p>
+        </article>
+        <article class="card">
+          <span class="card-num">03</span>
+          <h3>Backup e codificação</h3>
+          <p>O ZIP sai com os XMLs corrigidos nas mesmas pastas e uma pasta <code>originais/</code> com o conteúdo de antes de cada arquivo alterado.</p>
+          <p>A codificação é preservada (UTF-8 com ou sem BOM). Arquivo em outra codificação fica intacto e é listado como não alterado.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <div>
+        <span class="brand-text small">Situação<strong>ADN</strong></span>
+        <p>Ferramenta de apoio ao ajuste do XML de NFS-e. A validade fiscal continua sendo do arquivo autorizado pela prefeitura — guarde o XML original.</p>
+      </div>
+      <p class="footer-meta">Mesma regra do <code>Alterar-SituacaoAdn.ps1</code>.<br>Nenhum XML do contribuinte é transmitido.</p>
+    </div>
+  </footer>
+
+  <script src="vendor/jszip.min.js" defer></script>
+  <script type="module" src="app.js"></script>
 </body>
 </html>
