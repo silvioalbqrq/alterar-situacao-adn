@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alterar Situação ADN dos XMLs de NFS-e em Lote</title>
+<meta name="description" content="Troca a tag SituacaoAdn de Em Processamento para Processado com Sucesso nos XMLs de NFS-e. Aceita pasta, vários XMLs, .zip e .rar, mantendo backup dos originais. Roda no navegador, sem enviar arquivo para servidor.">
+<meta name="theme-color" content="#0b1220">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230b1220'/><text x='50' y='66' font-size='40' text-anchor='middle' fill='%2322e584'>ADN</text></svg>">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">ADN</span>
+      <span>
+        <b>Alterar Situação ADN</b>
+        <small>XML de NFS-e &middot; Em Processamento &rarr; Processado com Sucesso</small>
+      </span>
+    </div>
+    <a class="btn btn-ghost btn-sm" href="#como">Como funciona</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <span class="badge">Lote &middot; 100% no navegador</span>
+    <h1>Troque a tag SituacaoAdn dos XMLs em um clique</h1>
+    <p class="sub">
+      Sobe a pasta, os XMLs soltos ou o <strong>.zip</strong>/<strong>.rar</strong>. Cada arquivo com
+      <code>&lt;SituacaoAdn&gt;Em Processamento&lt;/SituacaoAdn&gt;</code> passa a
+      <code>&lt;SituacaoAdn&gt;Processado com Sucesso&lt;/SituacaoAdn&gt;</code>,
+      e você baixa tudo pronto em ZIP, com os originais no backup.
+    </p>
+  </div>
+</section>
+
+<main class="wrap">
+  <section class="card">
+    <h2>1. Escolha os arquivos</h2>
+    <p class="hint">Pasta, vários XMLs, .zip ou .rar. Nada é enviado para servidor &mdash; o processamento acontece no seu computador.</p>
+
+    <div class="drop" id="drop">
+      <span class="drop-icon" aria-hidden="true">&#8693;</span>
+      <strong>Arraste aqui</strong>
+      <span>pasta, XMLs, .zip ou .rar</span>
+      <div class="row">
+        <button class="btn btn-primary" id="btnPasta" type="button">Escolher pasta</button>
+        <button class="btn btn-outline" id="btnArquivos" type="button">Escolher XMLs</button>
+        <button class="btn btn-outline" id="btnPacote" type="button">Escolher .zip / .rar</button>
+      </div>
+    </div>
+
+    <input id="inPasta" type="file" webkitdirectory directory multiple hidden>
+    <input id="inArquivos" type="file" accept=".xml,text/xml,application/xml" multiple hidden>
+    <input id="inPacote" type="file" accept=".zip,.rar,.7z" multiple hidden>
+
+    <div class="fila" id="fila" hidden>
+      <div class="fila-topo">
+        <span id="filaResumo">0 arquivo(s)</span>
+        <button class="btn btn-link" id="btnLimpar" type="button">Limpar</button>
+      </div>
+      <ul id="filaLista"></ul>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>2. Processar</h2>
+    <div class="troca">
+      <code class="antes">&lt;SituacaoAdn&gt;Em Processamento&lt;/SituacaoAdn&gt;</code>
+      <span aria-hidden="true">&rarr;</span>
+      <code class="depois">&lt;SituacaoAdn&gt;Processado com Sucesso&lt;/SituacaoAdn&gt;</code>
+    </div>
+    <div class="row">
+      <button class="btn btn-primary" id="btnProcessar" type="button" disabled>Processar</button>
+    </div>
+    <p class="aviso" id="aviso" role="status" aria-live="polite"></p>
+  </section>
+
+  <section class="card" id="resultado" hidden>
+    <h2>3. Resultado</h2>
+    <div class="stats">
+      <div class="stat"><span>Alterados</span><strong class="g" id="stAlterados">0</strong></div>
+      <div class="stat"><span>Já corretos</span><strong id="stJa">0</strong></div>
+      <div class="stat"><span>Sem a tag</span><strong id="stSem">0</strong></div>
+      <div class="stat"><span>Não alterados por erro</span><strong class="c" id="stErro">0</strong></div>
+    </div>
+    <div class="row">
+      <button class="btn btn-primary" id="btnBaixar" type="button">Baixar ZIP</button>
+      <span class="hint" id="baixarInfo"></span>
+    </div>
+    <div class="tabela-caixa">
+      <table>
+        <thead><tr><th>Arquivo</th><th>Situação</th></tr></thead>
+        <tbody id="corpoTabela"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card" id="como">
+    <h2>Como funciona</h2>
+    <ul class="lista-simples">
+      <li>Só entram arquivos <code>.xml</code>. Dentro de .zip/.rar/.7z a busca é feita em todas as subpastas.</li>
+      <li>XML já com <strong>Processado com Sucesso</strong> é ignorado, então pode rodar quantas vezes quiser.</li>
+      <li>O ZIP baixado traz os arquivos corrigidos e a pasta <code>originais/</code> com o conteúdo de antes, igual ao backup do script.</li>
+      <li>A codificação é preservada (UTF-8 com ou sem BOM). Arquivo em outra codificação fica intacto e é listado como erro.</li>
+    </ul>
+  </section>
+</main>
+
+<footer class="rodape">
+  <div class="wrap">Mesma regra do <code>Alterar-SituacaoAdn.ps1</code>, sem instalar nada.</div>
+</footer>
+
+<script src="vendor/jszip.min.js"></script>
+<script type="module" src="app.js"></script>
+</body>
+</html>

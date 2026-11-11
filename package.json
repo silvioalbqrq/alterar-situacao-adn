@@ -1,0 +1,12 @@
+{
+  "name": "alterar-situacao-adn",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Site que troca <SituacaoAdn>Em Processamento</SituacaoAdn> por <SituacaoAdn>Processado com Sucesso</SituacaoAdn> nos XMLs de NFS-e, no navegador",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test.js"
+  },
+  "license": "MIT"
+}
