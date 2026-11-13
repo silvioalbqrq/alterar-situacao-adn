@@ -77,7 +77,7 @@ button, input, select { font: inherit; color: inherit; }
     radial-gradient(700px 380px at 8% 4%, rgba(37, 99, 235, .38), transparent 66%),
     linear-gradient(135deg, #0a1c35 0%, #102c50 52%, #123a6b 100%);
   color: #fff;
-  padding: 66px 0 104px;
+  padding: 20px 0 72px;
   border-radius: 0 0 34px 34px;
 }
 .hero::after {
@@ -95,19 +95,19 @@ button, input, select { font: inherit; color: inherit; }
   font-size: .72rem; font-weight: 700; letter-spacing: .16em;
   text-transform: uppercase; color: var(--emerald-light);
 }
-.hero .eyebrow { margin-bottom: 14px; }
+.hero .eyebrow { margin-bottom: 6px; }
 .hero h1 {
-  font-size: clamp(2rem, 3.6vw, 3.15rem);
-  line-height: 1.1;
+  font-size: clamp(1.75rem, 3vw, 2.15rem);
+  line-height: 1.06;
   letter-spacing: -.035em;
   font-weight: 800;
   max-width: 940px;
 }
 .hero h1 span { color: #a7f3d0; }
-.hero-sub { margin-top: 18px; max-width: 720px; font-size: 1.02rem; color: rgba(255, 255, 255, .78); }
-.hero-stats { display: flex; flex-wrap: wrap; gap: 16px 48px; margin-top: 36px; }
+.hero-sub { margin-top: 6px; max-width: 900px; font-size: .92rem; color: rgba(255, 255, 255, .78); }
+.hero-stats { display: flex; flex-wrap: wrap; gap: 10px 36px; margin-top: 10px; }
 .hero-stats div { display: flex; flex-direction: column; }
-.hero-stats strong { font-size: 1.55rem; font-weight: 800; letter-spacing: -.03em; }
+.hero-stats strong { font-size: 1.15rem; font-weight: 800; letter-spacing: -.03em; }
 .hero-stats span { font-size: .76rem; color: rgba(255, 255, 255, .62); margin-top: 2px; }
 
 /* Layout */
